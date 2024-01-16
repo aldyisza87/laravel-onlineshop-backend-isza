@@ -39,16 +39,32 @@ class UserController extends Controller
 
     //edit
     public function edit($id){
-        return view('pages.dashboard');
+        $user = User::findOrFail($id);
+
+        return view('pages.user.edit', compact('user'));
     }
 
     //update
     public function update(Request $request, $id){
-        return view('pages.dashboard');
+
+        $data = $request->all();
+        $user = User::findOrFail($id);
+        // check password is not empty
+        if($request->input('password')){
+            $data['password'] = Hash::make($request->input('password'));
+        }else{
+            // if password is empty, then use the old password
+            $data['password'] = $user->password;
+        }
+        $user->update($data) ;
+        return redirect()->route('user.index');
     }
 
     //destroy
     public function destroy($id){
-        return view('pages.dashboard');
+
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('user.index');
     }
 }
