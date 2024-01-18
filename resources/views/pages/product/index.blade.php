@@ -11,7 +11,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Product</h1>
+                <h1>Products</h1>
                 <div class="section-header-button">
                     <a href="{{ route('product.create') }}" class="btn btn-primary">Add New</a>
                 </div>
@@ -74,7 +74,7 @@
                                                 <td>{{ $product->created_at }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-center">
-                                                        <a href='{{ route('category.edit', $product->id) }}'
+                                                        <a href='{{ route('product.edit', $product->id) }}'
                                                             class="btn btn-sm btn-info btn-icon">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
