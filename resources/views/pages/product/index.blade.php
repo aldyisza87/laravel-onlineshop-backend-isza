@@ -56,7 +56,6 @@
                                             <th>Category</th>
                                             <th>Price</th>
                                             <th>Stock</th>
-
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>

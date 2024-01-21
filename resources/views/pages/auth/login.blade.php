@@ -34,19 +34,36 @@
                 <div class="form-group">
                     <div class="d-block">
                         <label for="password" class="control-label">Password</label>
-
                     </div>
-                    <input id="password" type="password"
-                        class="form-control @error('password')
-                        is-invalid
-                    @enderror"
-                        name="password" tabindex="2">
+                    <div class="input-group">
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror"
+                            name="password" tabindex="2">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="toggle-password">
+                                <i class="fa fa-eye-slash" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    </div>
                     @error('password')
                         <div class="invalid-feedback">
                             {{ $message }}
-                        @enderror
+                        </div>
+                    @enderror
+                </div>
 
-                    </div>
+                <script>
+                    document.getElementById('toggle-password').addEventListener('click', function () {
+                        var passwordInput = document.getElementById('password');
+                        var type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                        passwordInput.setAttribute('type', type);
+
+                        // Toggle eye icon
+                        var eyeIcon = document.querySelector('#toggle-password i');
+                        eyeIcon.classList.toggle('fa-eye');
+                        eyeIcon.classList.toggle('fa-eye-slash');
+                    });
+                </script>
 
 
                     <div class="form-group">
