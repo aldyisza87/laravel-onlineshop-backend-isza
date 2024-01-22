@@ -20,17 +20,17 @@
                 <div class="section-header-breadcrumb">
                     <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                     <div class="breadcrumb-item"><a href="#">Forms</a></div>
-                    <div class="breadcrumb-item">Users</div>
+                    <div class="breadcrumb-item">Category</div>
                 </div>
             </div>
 
             <div class="section-body">
-                <h2 class="section-title">Users</h2>
+                <h2 class="section-title">Category</h2>
 
 
 
                 <div class="card">
-                    <form action="{{ route('user.update', $user) }}" method="POST">
+                    <form action="{{ route('category.update', $category) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -43,7 +43,7 @@
                                     class="form-control @error('name')
                                 is-invalid
                             @enderror"
-                                    name="name" value="{{ $user->name }}">
+                                    name="name" value="{{ $category->name }}">
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -51,63 +51,62 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email"
-                                    class="form-control @error('email')
+                                <label>Description</label>
+                                <input type="text"
+                                    class="form-control @error('description')
                                 is-invalid
-                            @enderror"
-                                    name="email" value="{{ $user->email }}">
-                                @error('email')
+                                @enderror"
+                                    name="description" value="{{ $category->description }}">
+                                @error('description')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label>Password</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fas fa-lock"></i>
-                                        </div>
-                                    </div>
-                                    <input type="password"
-                                        class="form-control @error('password')
-                                is-invalid
-                            @enderror"
-                                        name="password">
-                                </div>
-                                @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" name="phone" value="{{ $user->phone }}">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Roles</label>
-                                <div class="selectgroup w-100">
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="ADMIN" class="selectgroup-input"
-                                            @if ($user->roles == 'ADMIN') checked @endif>
-                                        <span class="selectgroup-button">Admin</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="STAFF" class="selectgroup-input"
-                                            @if ($user->roles == 'STAFF') checked @endif>
-                                        <span class="selectgroup-button">Staff</span>
-                                    </label>
-                                    <label class="selectgroup-item">
-                                        <input type="radio" name="roles" value="USER" class="selectgroup-input"
-                                            @if ($user->roles == 'USER') checked @endif>
-                                        <span class="selectgroup-button">User</span>
-                                    </label>
+                                <label for="image">Category Image</label>
+                                <img id="image-preview" src="{{ asset($category->image) }}" alt="Category Image" style="max-width: 100px; display: block; margin-bottom: 10px;">
 
-                                </div>
+                                <input type="file" id="image" name="image" accept="image/*" class="form-control-file @error('image') is-invalid @enderror" onchange="previewImage(this);">
+
+                                @error('image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
+
+                            <script>
+                                function previewImage(input) {
+                                    var preview = document.getElementById('image-preview');
+                                    var file = input.files[0];
+                                    var reader = new FileReader();
+
+                                    reader.onloadend = function () {
+                                        preview.src = reader.result;
+                                    }
+
+                                    if (file) {
+                                        reader.readAsDataURL(file);
+                                    } else {
+                                        preview.src = "{{ asset($category->image) }}";
+                                    }
+                                }
+                            </script>
+
+
+
+
+                            {{-- <td> @if($category->image)
+                                <img src="{{ asset($category->image) }}" alt="Category Image" style="max-width: 100px;">
+                            @else
+                                No Image
+                            @endif
+                            </td> --}}
+
+
+
+
                         </div>
                         <div class="card-footer text-right">
                             <button class="btn btn-primary">Submit</button>
