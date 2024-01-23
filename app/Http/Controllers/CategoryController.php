@@ -11,9 +11,14 @@ class CategoryController extends Controller
    // index
    public function index() {
 
-    $categories = \App\Models\Category::paginate(5);
+    $categories = \App\Models\Category::paginate(15);
     return view('pages.category.index', compact('categories'));
    }
+
+    //create
+    public function create(){
+        return view('pages.category.create');
+    }
 
    //show
    public function show($id){
@@ -41,10 +46,9 @@ public function update(Request $request, $id){
         public function store(Request $request){
             $filename = time() . '.' . $request->image->extension();
             $request->image->storeAs('public/categories', $filename);
-        // $data = $request->all();
-
             $category = new \App\Models\Category;
-
+            $category->name = $request->name;
+            $category->description = $request->description;
             $category->image = $filename;
             $category->save();
 

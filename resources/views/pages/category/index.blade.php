@@ -65,11 +65,16 @@
                                                 </td>
                                                 <td>{{ $category->description }}
                                                 </td>
-                                                <td> @if($category->image)
-                                                    <img src="{{ asset($category->image) }}" alt="Category Image" style="max-width: 100px;">
-                                                @else
-                                                    No Image
-                                                @endif
+                                                <td>
+                                                    @if($category->image)
+                                                        {{-- Menggunakan asset untuk membuat URL gambar --}}
+                                                        <img src="{{ asset('storage/categories/' . $category->image) }}" alt="Category Image" style="max-width: 100px;">
+                                                    @else
+                                                        No Image
+                                                    @endif
+                                                </td>
+
+
                                                 </td>
                                                 <td>{{ $category->created_at }}</td>
                                                 <td>
