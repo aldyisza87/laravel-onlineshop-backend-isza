@@ -84,9 +84,8 @@
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
-
                                                         <form action="{{ route('category.destroy', $category->id) }}" method="POST"
-                                                            class="ml-2">
+                                                            class="ml-2" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                                             <input type="hidden" name="_method" value="DELETE" />
                                                             <input type="hidden" name="_token"
                                                                 value="{{ csrf_token() }}" />
@@ -94,6 +93,7 @@
                                                                 <i class="fas fa-times"></i> Delete
                                                             </button>
                                                         </form>
+
                                                     </div>
                                                 </td>
                                             </tr>

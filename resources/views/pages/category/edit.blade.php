@@ -30,7 +30,7 @@
 
 
                 <div class="card">
-                    <form action="{{ route('category.update', $category) }}" method="POST">
+                    <form action="{{ route('category.update', $category) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
@@ -63,18 +63,18 @@
                                     </div>
                                 @enderror
                             </div>
-                            <div class="form-group">
-                                <label for="image">Category Image</label>
-                                <img id="image-preview" src="{{ asset($category->image) }}" alt="Category Image" style="max-width: 100px; display: block; margin-bottom: 10px;">
 
-                                <input type="file" id="image" name="image" accept="image/*" class="form-control-file @error('image') is-invalid @enderror" onchange="previewImage(this);">
+                                <div class="form-group">
+                                    <label for="image">Category Image</label>
+                                    <input type="file" id="image" name="image" accept="image/jpeg, image/png, image/jpg, image/gif" class="form-control-file @error('image') is-invalid @enderror">
+                                    @error('image')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
 
-                                @error('image')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+
 
                             <script>
                                 function previewImage(input) {
@@ -105,12 +105,12 @@
                             </td> --}}
 
 
-
-
-                        </div>
-                        <div class="card-footer text-right">
+                            <div class="card-footer text-right">
                             <button class="btn btn-primary">Submit</button>
+                                </div>
+
                         </div>
+
                     </form>
                 </div>
 
