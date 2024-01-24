@@ -33,6 +33,7 @@ class CategoryController extends Controller
         return view('pages.category.edit', compact('category'));
     }
 
+    // update
     public function update(Request $request, $id){
         // Validasi data dari request
         $request->validate([
@@ -64,21 +65,6 @@ class CategoryController extends Controller
 
         return redirect()->route('category.index');
     }
-
-
-
-//update
-// public function update(Request $request, $id){
-
-//     $data = $request->all();
-//     $category = Category::findOrFail($id);
-
-//     $category->update($data) ;
-//     return redirect()->route('category.index');
-// }
-
-
-
 
         //store
         public function store(Request $request){
