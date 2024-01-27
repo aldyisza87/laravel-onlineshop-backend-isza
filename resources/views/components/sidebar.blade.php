@@ -19,7 +19,7 @@
 
                 </ul>
             </li>
-            <li class="menu-header">Users</li>
+            {{-- <li class="menu-header">Users</li> --}}
             <li class="nav-item dropdown">
                 <a href="#"
                     class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Users</span></a>

@@ -36,46 +36,46 @@ class ProductController extends Controller
         return view('pages.product.edit', compact('product', 'categories'));
     }
 
-    public function update(Request $request, $id)
-    {
-        // Validasi data dari request
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            'price' => 'required|numeric',
-            'stock' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Sesuaikan dengan kebutuhan Anda
-        ], [
-            'category_id.exists' => 'The selected category is invalid.',
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     // Validasi data dari request
+    //     $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'description' => 'required|string',
+    //         'price' => 'required|numeric',
+    //         'stock' => 'required|numeric',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Sesuaikan dengan kebutuhan Anda
+    //     ], [
+    //         'category_id.exists' => 'The selected category is invalid.',
+    //     ]);
 
-        // Ambil produk berdasarkan ID
-        $product = Product::findOrFail($id);
+    //     // Ambil produk berdasarkan ID
+    //     $product = Product::findOrFail($id);
 
-        // Tambahkan logika untuk menyimpan gambar baru jika diunggah
-        if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
-            if ($product->image) {
-                Storage::delete('public/products/' . $product->image);
-            }
+    //     // Tambahkan logika untuk menyimpan gambar baru jika diunggah
+    //     if ($request->hasFile('image')) {
+    //         // Hapus gambar lama jika ada
+    //         if ($product->image) {
+    //             Storage::delete('public/products/' . $product->image);
+    //         }
 
-            // Simpan gambar baru
-            $filename = time() . '.' . $request->image->extension();
-            $request->image->storeAs('public/products', $filename);
-            $product->image = $filename;
-        }
+    //         // Simpan gambar baru
+    //         $filename = time() . '.' . $request->image->extension();
+    //         $request->image->storeAs('public/products', $filename);
+    //         $product->image = $filename;
+    //     }
 
-        // Update data produk
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->stock = $request->stock;
-        $product->category_id = $request->category_id;
-        $product->save();
+    //     // Update data produk
+    //     $product->name = $request->name;
+    //     $product->description = $request->description;
+    //     $product->price = (int) $request->price;
+    //     $product->stock = (int) $request->stock;
+    //     $product->category_id = $request->category_id;
+    //     $product->update();
 
-        return redirect()->route('product.index');
-    }
+    //     return redirect()->route('product.index')->with('success', 'Product updated successfully');
+    // }
 
     //store
     public function store(Request $request){
@@ -98,15 +98,20 @@ class ProductController extends Controller
 
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with('success', 'Product updated successfully');
+    }
+    public function update(Request $request, $id)
+    {
+        $product = \App\Models\Product::findOrFail($id);
+        //if image is not empty, then update the image
+        if ($request->image) {
+            $filename = time() . '.' . $request->image->extension();
+            $request->image->storeAs('public/products', $filename);
+            $product->image = $filename;
+        }
+        $product->update($request->all());
+
+        return redirect()->route('product.index')->with('success', 'Product updated successfully');
     }
 
-
-    // public function update(Request $request, $id){
-
-    //     $data = $request->all();
-    //     $product = Product::findOrFail($id);
-    //     $product->update($data) ;
-    //     return redirect()->route('product.index');
-    // }
 }
