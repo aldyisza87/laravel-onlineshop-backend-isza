@@ -36,7 +36,7 @@ class CategoryController extends Controller
     // update
     public function update(Request $request, $id){
         // Validasi data dari request
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Sesuaikan dengan kebutuhan Anda
@@ -44,6 +44,7 @@ class CategoryController extends Controller
 
         // Ambil kategori berdasarkan ID
         $category = Category::findOrFail($id);
+        $category->update($validated);
 
         // Tambahkan logika untuk menyimpan gambar baru jika diunggah
         if ($request->hasFile('image')) {
@@ -63,20 +64,24 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->save();
 
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'Category updated successfully');
     }
 
         //store
         public function store(Request $request){
+            $validated = $request->validate([
+                'name' => 'required|max:100',
+            ]);
+
             $filename = time() . '.' . $request->image->extension();
             $request->image->storeAs('public/categories', $filename);
-            $category = new \App\Models\Category;
+            $category = \App\Models\Category::create($validated);
             $category->name = $request->name;
             $category->description = $request->description;
             $category->image = $filename;
             $category->save();
 
-            return redirect()->route('category.index');
+            return redirect()->route('category.index')->with('success', 'Category created successfully');
         }
 
         //destroy
@@ -84,7 +89,7 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('success', 'Category deleted successfully');
     }
 
 
